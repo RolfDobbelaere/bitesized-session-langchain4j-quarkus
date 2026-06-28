@@ -28,7 +28,9 @@ The same talk-track lines are also embedded as PowerPoint speaker notes in `RAG-
 | 14 | Live demo | [14-live-demo.md](14-live-demo.md) | 8–10 |
 | 15 | Observability / Elastic APM | [15-observability.md](15-observability.md) | 2.0 |
 | 16 | Dev today, prod tomorrow | [16-to-production.md](16-to-production.md) | 1.5 |
-| 17 | Closing + Q&A | [17-closing.md](17-closing.md) | 2.0 |
+| 17 | Beyond RAG: memory (@MemoryId) | [17-memory.md](17-memory.md) | 1.5 |
+| 18 | Beyond RAG: structured output (POJO) | [18-structured-output.md](18-structured-output.md) | 1.5 |
+| 19 | Closing + Q&A | [19-closing.md](19-closing.md) | 2.0 |
 
 ## Assets for manual insertion
 - `../assets/rag-pipeline.svg` — higher-fidelity version of the slide 5 diagram.

@@ -1,0 +1,36 @@
+meta {
+  name: 5.3 Different session (isolated)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/chat/memory
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "sessionId": "guest-42",
+    "message": "What is my name?"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Memory demo — step 3 (no RAG)
+
+  Same question as 5.2 but a DIFFERENT session id ("guest-42").
+
+  Expected: it does NOT know your name — this session has its own empty history.
+  This proves the memory is keyed purely by the id you pass: change the id, change
+  the conversation. Nothing else in the request differs.
+}

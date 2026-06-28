@@ -152,6 +152,8 @@ async function build() {
     cloud:   await icon(fa.FaCloud, hex(C.ice)),
     shield:  await icon(fa.FaShieldAlt, hex(C.emerald)),
     quote:   await icon(fa.FaQuoteLeft, hex(C.line)),
+    brain:   await icon(fa.FaBrain, hex(C.emerald)),
+    cubes:   await icon(fa.FaCubes, hex(C.amber)),
   };
 
   // small icon-in-circle helper
@@ -880,7 +882,109 @@ async function build() {
   footer(s, 16);
 
   // =========================================================
-  // SLIDE 17 — CLOSING
+  // SLIDE 17 — BEYOND RAG #1: MEMORY
+  // =========================================================
+  s = pres.addSlide(); base(s);
+  header(s, { tag: "// beyond rag · memory", title: "Memory: hand it a session id, it remembers", accent: C.emerald, num: 17 });
+  s.addText("Same AiService idea, no RAG — conversation history, keyed by an id you pass in.", {
+    x: M, y: 1.74, w: 11.4, h: 0.5, fontFace: FONT_B, fontSize: 15, italic: true, color: C.muted, margin: 0 });
+
+  codePanel(s, M, 2.5, 7.0, 3.75, [
+    br(cm("// no RAG — just an @MemoryId parameter")),
+    br(an("@RegisterAiService")),
+    br(pl("public interface ConversationalAssistant {")),
+    br(pl("    String chat(")),
+    { text: "        @MemoryId", options: { color: C.coral } },
+    { text: " String sessionId,", options: { color: C.ice, breakLine: true } },
+    { text: "        @UserMessage", options: { color: C.amber } },
+    { text: " String message);", options: { color: C.ice, breakLine: true } },
+    br(pl("}")),
+    { text: " ", options: { breakLine: true } },
+    br(cm("// the caller supplies the id in the body:")),
+    br({ text: "POST /chat/memory", options: { color: C.emerald } }),
+    br(str('{ "sessionId": "rolf", "message": "..." }')),
+  ], { file: "ConversationalAssistant.java", fontSize: 12.5 });
+
+  const mrx = M + 7.4, mrw = W - M - mrx;
+  card(s, mrx, 2.5, mrw, 2.55, C.card);
+  iconChip(s, mrx + 0.3, 2.75, 0.7, I.brain, C.cardHi);
+  s.addText("Same id → it remembers", { x: mrx + 1.15, y: 2.78, w: mrw - 1.3, h: 0.6, fontFace: FONT_H,
+    fontSize: 15, bold: true, color: C.emerald, align: "left", valign: "middle", margin: 0 });
+  s.addText([
+    { text: "“My name is Rolf.”", options: { color: C.ice, breakLine: true } },
+    { text: "“What's my name?”  ", options: { color: C.muted } },
+    { text: "→  “You're Rolf.”", options: { color: C.emerald, bold: true } },
+  ], { x: mrx + 0.3, y: 3.65, w: mrw - 0.6, h: 1.3, fontFace: FONT_B, fontSize: 13.5, align: "left", valign: "top", margin: 0, lineSpacingMultiple: 1.2 });
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: mrx, y: 5.25, w: mrw, h: 1.0, rectRadius: 0.08, fill: { color: C.panel },
+    line: { color: C.line, width: 1 } });
+  s.addText([
+    { text: "A different sessionId starts blank. ", options: { color: C.coral, bold: true } },
+    { text: "Default: last 10 messages, in-memory, per id — no store to wire up.", options: { color: C.ice } },
+  ], { x: mrx + 0.25, y: 5.25, w: mrw - 0.5, h: 1.0, fontFace: FONT_B, fontSize: 12.5, align: "left", valign: "middle", margin: 0 });
+  s.addNotes(
+    "First of two 'the AiService does more than RAG' slides. The whole feature is the @MemoryId parameter: pass a session id and quarkus-langchain4j keeps a separate conversation window per id, automatically, in memory. " +
+    "Demo live if you like (Bruno folder '5 - Memory'): POST /chat/memory twice with sessionId 'rolf' — tell it your name, then ask for it back; it remembers. Then POST with a different sessionId and it has no idea — proving the histories are isolated and it's the id doing the work, nothing else. " +
+    "Keep it deliberately RAG-free so the feature is the star; mention the default is a 10-message in-memory window you can swap for a persistent store in one line."
+  );
+  footer(s, 17);
+
+  // =========================================================
+  // SLIDE 18 — BEYOND RAG #2: STRUCTURED OUTPUT (POJO)
+  // =========================================================
+  s = pres.addSlide(); base(s);
+  header(s, { tag: "// beyond rag · structured output", title: "Ask for a POJO, get a POJO", accent: C.amber, num: 18 });
+  s.addText("Return a Java record from the AiService — the model answers as JSON, Quarkus maps it. No parsing.", {
+    x: M, y: 1.74, w: 11.4, h: 0.5, fontFace: FONT_B, fontSize: 15, italic: true, color: C.muted, margin: 0 });
+
+  codePanel(s, M, 2.5, 7.1, 3.75, [
+    br(cm("// a plain record describes the shape you want")),
+    { text: "record ", options: { color: C.coral } },
+    { text: "Game(String name, String publisher,", options: { color: C.ice, breakLine: true } },
+    br(pl("            int metacriticScore, int releaseYear) {}")),
+    { text: " ", options: { breakLine: true } },
+    br(an("@RegisterAiService")),
+    br(pl("public interface GameExpert {")),
+    br({ text: '  @UserMessage("List the {count} best {genre}…")', options: { color: C.amber } }),
+    br({ text: "  GameChart bestGames(int count, String genre);", options: { color: C.ice } }),
+    br(cm("  // ↑ returns a POJO, not a String")),
+    br(pl("}")),
+  ], { file: "GameExpert.java", fontSize: 12 });
+
+  const grx = M + 7.5, grw = W - M - grx;
+  // sample typed result (inline mono card)
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: grx, y: 2.5, w: grw, h: 2.95, rectRadius: 0.06,
+    fill: { color: C.code }, line: { color: C.line, width: 1 }, shadow: shadow() });
+  s.addText("GameChart  (deserialized)", { x: grx + 0.25, y: 2.62, w: grw - 0.5, h: 0.3, fontFace: FONT_M,
+    fontSize: 10.5, color: C.muted, align: "left", valign: "middle", margin: 0 });
+  s.addText([
+    br(pl("{")),
+    br({ text: '  "genre": "open-world RPG",', options: { color: C.ice } }),
+    br(pl('  "games": [')),
+    br({ text: '    { "name": "The Witcher 3",', options: { color: C.emerald } }),
+    br({ text: '      "publisher": "CD Projekt",', options: { color: C.emerald } }),
+    br({ text: '      "metacriticScore": 93,', options: { color: C.emerald } }),
+    br({ text: '      "releaseYear": 2015 },', options: { color: C.emerald } }),
+    br(cm("    ...two more...")),
+    br(pl("  ]")),
+    br(pl("}")),
+  ], { x: grx + 0.28, y: 2.98, w: grw - 0.5, h: 2.4, fontFace: FONT_M, fontSize: 11, color: C.ice,
+    align: "left", valign: "top", margin: 0, lineSpacingMultiple: 1.12 });
+  const gbul = [
+    "Quarkus injects the JSON schema for you",
+    "Reply is deserialized into the record",
+    "No ObjectMapper, no 'find the JSON in the prose'",
+  ];
+  s.addText(gbul.map((t) => ({ text: t, options: { bullet: { indent: 16 }, breakLine: true, paraSpaceAfter: 6, color: C.ice } })),
+    { x: grx, y: 5.65, w: grw, h: 1.1, fontFace: FONT_B, fontSize: 12.5, align: "left", valign: "top", margin: 0 });
+  s.addNotes(
+    "Second 'beyond RAG' slide and a reliable crowd-pleaser. The point: you declare a Java record as the return type and the model is forced to answer in that shape — quarkus-langchain4j inserts the JSON schema and deserializes the response into your POJO. No ObjectMapper, no regex to dig JSON out of prose. " +
+    "Demo (Bruno '6 - Structured output'): POST /games {\"genre\":\"open-world RPG\"} and show the typed JSON coming back. Great for building real features — function arguments, form-filling, data extraction. " +
+    "Honesty note for local models: gpt-4o-mini nails structured output; tiny Ollama models (llama3.2:3b) usually comply but can occasionally wobble on strict JSON — if demoing on Ollama, have OpenAI as the fallback for this one."
+  );
+  footer(s, 18);
+
+  // =========================================================
+  // SLIDE 19 — CLOSING
   // =========================================================
   s = pres.addSlide(); base(s);
   s.addText("//", { x: 10.5, y: -1.0, w: 3.5, h: 5, align: "right", fontFace: FONT_H, fontSize: 220, bold: true,
@@ -916,7 +1020,7 @@ async function build() {
     "Then open Q&A. Anticipated questions: data security (answer: Ollama on-prem, nothing leaves the building), cost (scales with tokens, infra flat), 'why not Python' (your data and your ops are already here), and 'is JVM mode really fine for prod' (yes — native is an option, not a requirement). " +
     "Leave the resource links on screen during Q&A."
   );
-  footer(s, 17);
+  footer(s, 19);
 
   // =========================================================
   await pres.writeFile({ fileName: "C:/WEBINAR/bitesized-session-langchain4j-quarkus/presentation/RAG-Four-Ways.pptx" });

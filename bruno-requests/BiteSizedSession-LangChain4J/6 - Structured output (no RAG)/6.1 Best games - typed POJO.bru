@@ -1,0 +1,45 @@
+meta {
+  name: 6.1 Best games - typed POJO
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/games
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "genre": "open-world RPG"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Structured-output demo (no RAG)
+
+  Ask for the 3 best open-world RPGs. The AiService method returns a Java record
+  (GameChart -> List<Game>), so the model is forced to answer as JSON matching that
+  shape, and Quarkus deserializes it for you.
+
+  Expected: clean JSON like
+    { "genre": "open-world RPG",
+      "games": [ { "name": "...", "publisher": "...",
+                   "metacriticScore": 93, "releaseYear": 2015 }, ... ] }
+
+  No manual JSON parsing anywhere — the endpoint returns the typed object and
+  quarkus-rest serializes it back to JSON.
+
+  Note: gpt-4o-mini (default profile) is rock-solid here. On local Ollama with a
+  small model the JSON is usually fine but can occasionally wobble — if it does,
+  re-run, or use the OpenAI profile for this one.
+}

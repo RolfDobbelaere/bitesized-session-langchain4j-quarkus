@@ -1,0 +1,36 @@
+meta {
+  name: 6.2 Best games - custom count
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/games
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "genre": "indie platformer",
+    "count": 5
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Structured-output demo — variable count
+
+  Same feature, different inputs: the optional "count" maps to the {count} template
+  variable in the @UserMessage, and the genre to {genre}. Shows the prompt template
+  + typed return working together.
+
+  Expected: 5 indie platformers as structured Game objects.
+}
