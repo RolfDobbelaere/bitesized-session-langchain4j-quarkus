@@ -1,0 +1,35 @@
+meta {
+  name: 5.2 Recall (session rolf)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/chat/memory
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "sessionId": "rolf",
+    "message": "What is my name and my favourite programming language?"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Memory demo — step 2 (no RAG)
+
+  Same session id ("rolf") as 5.1. Run this right after 5.1.
+
+  Expected: it answers "Rolf" and "Java" — it remembered, because the history for
+  this session id is replayed into the prompt automatically. No database, no RAG.
+}

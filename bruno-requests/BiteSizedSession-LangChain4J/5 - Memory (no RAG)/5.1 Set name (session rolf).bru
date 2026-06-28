@@ -1,0 +1,36 @@
+meta {
+  name: 5.1 Set name (session rolf)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/chat/memory
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "sessionId": "rolf",
+    "message": "My name is Rolf and my favourite programming language is Java."
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Memory demo — step 1 (no RAG)
+
+  Tell the assistant something, under session id "rolf". It just acknowledges.
+  The point is the next request: it will remember this.
+
+  The session id is supplied by you in the body and maps to @MemoryId in the
+  AiService — that's the entire feature.
+}

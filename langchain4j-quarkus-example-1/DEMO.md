@@ -54,6 +54,19 @@ side by side (e.g. ask something only in the May 2025 or June 2026 issue).
 5. (If time and Wi-Fi allow) Quarkus dev-mode hot reload: tweak a prompt template or
    `maxResults`, save, re-curl, instant difference — no restart.
 
+## Beyond RAG — two bonus AiService features (slides 17–18, no RAG)
+Same `@RegisterAiService` abstraction, shown in isolation to make the point that
+LangChain4j is more than RAG. Both opt out of RAG via `NoRagAugmentorSupplier`
+(otherwise easy-rag auto-attaches its default augmentor).
+- **Memory** — `POST /chat/memory` with `{"sessionId","message"}`. The `@MemoryId`
+  parameter gives each session its own conversation window (default: last 10 messages,
+  in-memory). Same id remembers; a different id is isolated. Bruno folder "5 - Memory".
+- **Structured output** — `POST /games` with `{"genre","count?"}`. The AiService method
+  returns a Java record (`GameChart` → `List<Game>`), so the model answers as JSON
+  matching the schema and Quarkus deserializes it into the POJO — no manual parsing.
+  Bruno folder "6 - Structured output". (gpt-4o-mini is reliable; tiny Ollama models
+  can occasionally produce slightly off JSON.)
+
 ## Explicit non-goals for this demo
 - No pgvector / Postgres live setup — in-memory store only, to match the "no new
   infrastructure" pitch. pgvector is mentioned on a slide as the production swap-in,

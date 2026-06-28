@@ -1,8 +1,17 @@
 C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\AskRequest.java
+C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\ConversationalAssistant.java
 C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\EasyRagAiService.java
+C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\Game.java
+C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\GameChart.java
+C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\GameExpert.java
+C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\GamesRequest.java
+C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\GamesResource.java
+C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\MemoryRequest.java
+C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\MemoryResource.java
 C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\NaiveRagAiService.java
 C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\NaiveRagAugmentorSupplier.java
 C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\NewsletterStore.java
+C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\NoRagAugmentorSupplier.java
 C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\RagDemoResource.java
 C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\TransformedRagAiService.java
 C:\WEBINAR\bitesized-session-langchain4j-quarkus\langchain4j-quarkus-example-1\src\main\java\com\brain2\ragdemo\TransformedRagAugmentorSupplier.java

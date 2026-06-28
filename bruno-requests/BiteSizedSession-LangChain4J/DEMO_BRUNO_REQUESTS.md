@@ -42,8 +42,21 @@ step-08 — stop it and start `langchain4j-quarkus-example-1`.
 | **2 - Naive RAG (by hand)** | `/ask/naive-rag` | Beat 2 | Same questions, grounded by a hand-wired retriever + augmentor. |
 | **3 - Easy RAG (by config)** | `/ask/easy-rag` | Beat 3 | Same answer as naive, but the retrieval code is deleted — config only. |
 | **4 - Transformed RAG (tuning)** | `/ask/transformed-rag` | Beat 4 | A vague question that naive RAG fumbles and query-rewriting recovers. |
+| **5 - Memory (no RAG)** | `/chat/memory` | Beyond RAG | `@MemoryId` per-session memory — same id remembers, different id is isolated. |
+| **6 - Structured output (no RAG)** | `/games` | Beyond RAG | The LLM returns a typed Java record (POJO), not prose. |
 
 Every request carries its own notes in Bruno's **Docs** tab.
+
+### Folders 5 & 6 — the "beyond RAG" features (slides 17–18)
+These two have **nothing to do with RAG** — they show other things the same AiService
+abstraction gives you. Run them whenever you reach those slides (or skip if short on time).
+
+- **5 - Memory:** fire `5.1` then `5.2` (same session id "rolf") — it remembers your name.
+  Then `5.3` (a different session id) — it doesn't. Memory is keyed only by the id you pass.
+- **6 - Structured output:** fire `6.1` (POST /games {"genre":"open-world RPG"}) — you get
+  back typed JSON (name/publisher/metacriticScore/releaseYear), deserialized from a Java
+  record with no manual parsing. `6.2` shows the `{count}`/`{genre}` template params.
+  On local Ollama the JSON can occasionally wobble; gpt-4o-mini (default profile) is solid.
 
 ---
 
