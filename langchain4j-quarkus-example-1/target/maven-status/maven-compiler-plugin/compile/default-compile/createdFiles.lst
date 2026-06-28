@@ -1,0 +1,10 @@
+com\brain2\ragdemo\TransformedRagAiService.class
+com\brain2\ragdemo\NaiveRagAiService.class
+com\brain2\ragdemo\TransformedRagAugmentorSupplier.class
+com\brain2\ragdemo\NaiveRagAugmentorSupplier.class
+com\brain2\ragdemo\NewsletterStore.class
+com\brain2\ragdemo\EasyRagAiService.class
+com\brain2\ragdemo\AskRequest.class
+com\brain2\ragdemo\RagDemoResource.class
+com\brain2\ragdemo\TransformedRagAugmentorSupplier$1.class
+com\brain2\ragdemo\NaiveRagAugmentorSupplier$1.class

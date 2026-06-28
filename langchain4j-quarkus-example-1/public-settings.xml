@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Your machine-wide ~/.m2/settings.xml mirrors Maven Central through the corporate
+  Artifactory (repo.brain2.com), which is only reachable on the VPN. This demo
+  pulls io.quarkus.platform / io.quarkiverse.langchain4j artifacts that aren't on
+  that mirror's allowlist, so build with:
+
+      mvn -s public-settings.xml compile
+      mvn -s public-settings.xml quarkus:dev
+
+  This file is local to this demo project only — it does NOT touch your global
+  Maven settings. Once back on VPN you can drop -s and use the default settings.
+-->
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 http://maven.apache.org/xsd/settings-1.2.0.xsd">
+    <localRepository>C:\DEV\m2repo</localRepository>
+</settings>
