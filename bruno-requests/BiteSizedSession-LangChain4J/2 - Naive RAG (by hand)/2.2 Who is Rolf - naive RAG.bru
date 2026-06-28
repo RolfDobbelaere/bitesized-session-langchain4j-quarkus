@@ -1,0 +1,36 @@
+meta {
+  name: 2.2 Who is Rolf - naive RAG
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/ask/naive-rag
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "question": "Who is Rolf?"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Beat 2 — RAG by hand (grounding a person)
+
+  Same question as `1.2`, now retrieval-grounded.
+
+  **Expected:** the model answers from the newsletter mentions of Rolf instead of
+  guessing — describing him as the newsletters actually do.
+
+  Nice "it knows our people" beat for an internal audience.
+}

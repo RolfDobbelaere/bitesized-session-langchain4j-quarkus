@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "BiteSizedSession-LangChain4J",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

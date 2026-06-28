@@ -43,10 +43,16 @@
 
     <dependencies>
 
-        <!-- Chat model provider -->
+        <!-- Chat model provider: OpenAI (default profile) -->
         <dependency>
             <groupId>io.quarkiverse.langchain4j</groupId>
             <artifactId>quarkus-langchain4j-openai</artifactId>
+        </dependency>
+
+        <!-- Chat + embedding model provider: Ollama (on-prem, the -Dquarkus.profile=ollama story) -->
+        <dependency>
+            <groupId>io.quarkiverse.langchain4j</groupId>
+            <artifactId>quarkus-langchain4j-ollama</artifactId>
         </dependency>
 
         <!-- Declarative, config-only RAG (endpoint #3 of the demo) -->

@@ -791,6 +791,7 @@ async function build() {
     "Pacing: step 1 and 2 back to back is the money shot — wrong answer, then right answer, same question. Let the contrast breathe. " +
     "Step 3 is the ergonomics reveal; step 4 is the 'RAG needs tuning' reveal. " +
     "Practical: set OPENAI_API_KEY beforehand, have the dev server already warm, and have the backup recording one Alt-Tab away. The self-deprecating 'panic window' line both gets a laugh and quietly sets expectations if the Wi-Fi betrays you. " +
+    "Offline fallback (and a nice flex): you can run the whole demo with no internet using local Ollama — start with -Dquarkus.profile=ollama and it uses llama3.2:3b + nomic-embed-text on this laptop. Pre-warm the models (keep_alive:30m) so the first answer isn't slow, and keep answers short since local generation is ~7 tokens/sec. If you do the Ollama run live, it doubles as the slide-16 on-prem proof. " +
     "Known gotcha on the demo machine: a local Netty loopback/VPN issue and the easy-rag Docker dev-card can block startup — start the server before the session, don't cold-start it on stage."
   );
   footer(s, 14);
@@ -854,7 +855,7 @@ async function build() {
       { text: "Production swap-in", options: { bold: true, color: C.white, fill: { color: C.cardHi }, fontFace: FONT_H, fontSize: 14, valign: "middle" } },
     ],
     ["Vector store", "In-memory", "PostgreSQL + pgvector (or Milvus, Pinecone…)"],
-    ["LLM provider", "OpenAI gpt-4o-mini", "Azure OpenAI · or self-hosted Ollama, fully on-prem"],
+    ["Models (chat + embed)", "OpenAI gpt-4o-mini + text-embedding-3-small", "On-prem Ollama: llama3.2:3b + nomic-embed-text (or Azure OpenAI)"],
     ["Deployment", "mvn quarkus:dev", "JAR + Elastic APM agent — on the servers you already run"],
     ["Documents", "6 newsletter PDFs", "Your real corpus, re-ingested on a schedule"],
     ["Cost shape", "Pennies", "Scales ~linearly with tokens; infra stays flat"],
@@ -873,7 +874,8 @@ async function build() {
   s.addNotes(
     "De-risk the obvious objection: 'sure, it demos, but productionizing AI is a project.' Here it isn't — each row is a swap, not a redesign. " +
     "Hit the two that matter most to this audience: pgvector means the vector store is just Postgres (a database they already run and back up), and Ollama means the whole thing can run on-prem with no data leaving the building — the answer to every security and compliance question. " +
-    "Cost shape: the LLM API is the variable cost and it scales with usage; the infrastructure footprint stays flat. Close on 'your DevOps team keeps their runbook' — that's the sentence that gets this into production."
+    "Make the Ollama row concrete: llama3.2:3b for chat and nomic-embed-text for embeddings run fully local — I benchmarked them on this very laptop, CPU-only, and they're fluent for a live demo. And because the provider is a config property, switching from OpenAI to local Ollama is literally the `-Dquarkus.profile=ollama` flag, not a code change. If the Wi-Fi or the OpenAI key fails on stage, that same flag is also your offline fallback. " +
+    "Cost shape: the hosted LLM API is the variable cost and it scales with usage; with on-prem Ollama even that becomes fixed hardware. The infrastructure footprint stays flat. Close on 'your DevOps team keeps their runbook' — that's the sentence that gets this into production."
   );
   footer(s, 16);
 

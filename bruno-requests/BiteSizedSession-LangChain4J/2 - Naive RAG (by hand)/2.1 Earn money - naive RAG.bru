@@ -1,0 +1,40 @@
+meta {
+  name: 2.1 Earn money - naive RAG
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/ask/naive-rag
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "question": "Can I earn money from the newsletter? If so, how?"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Beat 2 — RAG by hand (the money shot, resolved)
+
+  Same question as `1.1`, now through the hand-wired retriever + augmentor.
+  The retriever pulls the relevant newsletter chunks and injects them into the
+  prompt before the model answers.
+
+  **Expected:** a grounded answer pointing at the real mechanism in the
+  newsletter (e.g. the contest to win a gift card for the best summer photo) —
+  something the no-RAG endpoint had no way to know.
+
+  This is the back-to-back "wrong → right, same question" moment. Run `1.1`
+  immediately before this one and let the contrast land.
+}

@@ -1,0 +1,42 @@
+meta {
+  name: 4.2 Vague summer prize - transformed (recovers)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/ask/transformed-rag
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "question": "what was that summer thing they mentioned where you could win something?"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Beat 4 — fix it (transformed RAG, same vague question)
+
+  Identical vague question to `4.1`, but this endpoint runs a
+  **CompressingQueryTransformer** first: the model rewrites the woolly question
+  into a sharp, self-contained one ("what summer photo contest / prize does the
+  newsletter mention?") **before** retrieval. Better query → right chunks → the
+  answer recovers.
+
+  **Expected:** the real summer-photo gift-card answer comes back, even though the
+  user's wording never changed.
+
+  Note: this endpoint makes an **extra** LLM call (the rewrite), so it's slower —
+  noticeably so on local Ollama (~2x). Don't be surprised by the latency; it's the
+  cost of the rewrite, and worth calling out on stage.
+}

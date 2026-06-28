@@ -1,14 +1,14 @@
 # Slide 16 — Dev today, prod tomorrow
 
 ## On screen
-A table: Concern · Demo today · Production swap-in. Rows: vector store (in-memory → pgvector), LLM provider (OpenAI → Azure / on-prem Ollama), deployment (`mvn quarkus:dev` → JAR + APM agent), documents (6 newsletter PDFs → real corpus, re-ingested on a schedule), cost shape (pennies → scales ~linearly with tokens, infra flat). Caption: *every right-hand cell is a dependency or a property — not an architectural change.*
+A table: Concern · Demo today · Production swap-in. Rows: vector store (in-memory → pgvector), models — chat + embed (OpenAI gpt-4o-mini + text-embedding-3-small → on-prem Ollama `llama3.2:3b` + `nomic-embed-text`, or Azure OpenAI), deployment (`mvn quarkus:dev` → JAR + APM agent), documents (6 newsletter PDFs → real corpus, re-ingested on a schedule), cost shape (pennies → scales ~linearly with tokens, infra flat). Caption: *every right-hand cell is a dependency or a property — not an architectural change.*
 
 ## Background
 This de-risks the obvious objection: "sure, it demos, but productionising AI is a project." Here, each row is a swap, not a redesign — the architecture from slide 8 is unchanged.
 
 The two rows that matter most to this audience:
 - **Vector store → pgvector.** The production vector store is just **PostgreSQL** with the pgvector extension — a database they already run, back up, monitor, and understand. No new database vendor, no Pinecone contract. (Milvus/Weaviate/etc. exist if they want a dedicated vector DB, but Postgres is the "no new vendor" answer.) In LangChain4j terms, swap the in-memory store for the pgvector store extension and point it at a datasource.
-- **LLM provider → on-prem Ollama.** Because the provider is config, the entire thing can run on a model hosted **inside the building** with Ollama (or vLLM). This is the answer to every security/compliance question: with on-prem inference, **no prompt and no retrieved document ever leaves your network.**
+- **Models → on-prem Ollama.** Because the provider is config, the entire thing can run on models hosted **inside the building** with Ollama (or vLLM). The concrete, demo-tested stack is **`llama3.2:3b`** for chat and **`nomic-embed-text`** for embeddings — both benchmarked CPU-only on the presenting laptop and fluent for a live demo. Switching from OpenAI to local is literally `-Dquarkus.profile=ollama`, not a code change (see `langchain4j-quarkus-example-1/OLLAMA.md`). This is the answer to every security/compliance question: with on-prem inference, **no prompt and no retrieved document ever leaves your network** — and it's also your offline fallback if the Wi-Fi or the hosted API dies on stage.
 
 **Deployment** is the slide-7 story restated: a normal JAR with the Elastic APM agent, on the servers they already run. No containers required (though containers are fine if they want them).
 

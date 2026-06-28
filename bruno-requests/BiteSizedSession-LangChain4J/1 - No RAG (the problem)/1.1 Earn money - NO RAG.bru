@@ -1,0 +1,38 @@
+meta {
+  name: 1.1 Earn money - NO RAG
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/ask/no-rag
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "question": "Can I earn money from the newsletter? If so, how?"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Beat 1 — the problem (money shot)
+
+  Plain LLM, **no retrieval**. The model has never seen your newsletters, so it
+  cannot know about any real way to earn money from them.
+
+  **Expected:** a vague or invented answer ("newsletters don't usually pay…",
+  or a made-up referral scheme). Confident, and wrong.
+
+  This sets up the contrast: the *same* question against `2.1 Earn money -
+  naive RAG` should surface the real answer (the summer-photo gift-card contest).
+}

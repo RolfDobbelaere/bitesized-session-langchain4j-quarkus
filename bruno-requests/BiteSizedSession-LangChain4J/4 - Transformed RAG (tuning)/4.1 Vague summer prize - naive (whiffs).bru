@@ -1,0 +1,41 @@
+meta {
+  name: 4.1 Vague summer prize - naive (whiffs)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/ask/naive-rag
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "question": "what was that summer thing they mentioned where you could win something?"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Beat 4 — break it (naive RAG on a vague question)
+
+  Deliberately vague, conversational phrasing. A fuzzy question embeds to a fuzzy
+  vector, so naive retrieval may pull the wrong chunks and the model answers
+  weakly — "I'm not sure", or it latches onto the wrong event.
+
+  **Expected:** a worse answer than the crisp questions got. That's the point —
+  don't hide it.
+
+  Then run `4.2` with the **same** vague question and watch it recover.
+
+  (If naive RAG happens to answer this one well on the day, fall back to an even
+  vaguer phrasing, e.g. "what about that thing for the holidays?")
+}

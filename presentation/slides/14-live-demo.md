@@ -26,6 +26,13 @@ curl -s -XPOST localhost:8080/ask/naive-rag       -H 'Content-Type: application/
 curl -s -XPOST localhost:8080/ask/transformed-rag -H 'Content-Type: application/json' -d "$V"
 ```
 
+### Offline fallback — run it all on local Ollama
+The whole demo runs with no internet using local models — doubles as the slide-16 on-prem proof, and saves you if the Wi-Fi or the hosted API dies on stage:
+```bash
+mvn -s public-settings.xml quarkus:dev -Dquarkus.profile=ollama   # llama3.2:3b + nomic-embed-text
+```
+Pre-warm the models first so the first on-stage answer isn't slow, and keep answers short — local generation is ~7 tok/s on this laptop (full detail + pre-warm commands in `langchain4j-quarkus-example-1/OLLAMA.md`).
+
 ### Known gotchas on the demo machine (do NOT cold-start on stage)
 - **Netty loopback / VPN**: dev mode can fail with `failed to open a new selector` / `Unable to establish loopback connection` — a Windows + VPN/endpoint-security issue, not the app. Mitigation: start the server *before* the session; if it bites, toggle VPN or reboot beforehand.
 - **easy-rag Open WebUI dev card wants Docker**: dev mode's shutdown hook calls Docker; have Docker Desktop running, or just don't restart mid-talk.

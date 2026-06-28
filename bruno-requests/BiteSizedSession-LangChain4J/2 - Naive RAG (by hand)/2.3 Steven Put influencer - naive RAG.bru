@@ -1,0 +1,36 @@
+meta {
+  name: 2.3 Steven Put influencer - naive RAG
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/ask/naive-rag
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "question": "Is Steven Put an influencer? He seems to travel a lot."
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Beat 2 — RAG by hand (the fun one, grounded)
+
+  Same leading question as `1.3`, now retrieval-grounded.
+
+  **Expected:** instead of inventing an influencer persona, the model sticks to
+  what the newsletters actually say about Steven Put (his real travel / project
+  mentions) — and ideally pushes back on the "influencer" premise if the docs
+  don't support it. Good illustration that RAG also *reduces* over-eager agreement.
+}

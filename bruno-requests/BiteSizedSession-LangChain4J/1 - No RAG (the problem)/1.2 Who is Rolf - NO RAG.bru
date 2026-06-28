@@ -1,0 +1,38 @@
+meta {
+  name: 1.2 Who is Rolf - NO RAG
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/ask/no-rag
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "question": "Who is Rolf?"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  # Beat 1 — the problem (a person it can't know)
+
+  Plain LLM, **no retrieval**. "Rolf" only means something inside *your*
+  newsletters; a generic model has no idea which Rolf you mean.
+
+  **Expected:** either a refusal ("Rolf could refer to many people…") or a
+  confident guess about some unrelated famous Rolf. Either way, not *your* Rolf.
+
+  Pair with `2.2 Who is Rolf - naive RAG` to show retrieval grounding the answer
+  in what the newsletters actually say.
+}
