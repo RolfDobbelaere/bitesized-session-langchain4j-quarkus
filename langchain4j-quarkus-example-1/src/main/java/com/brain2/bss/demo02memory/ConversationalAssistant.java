@@ -6,13 +6,22 @@ import dev.langchain4j.service.MemoryId;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
- * Chat-memory demo (no RAG). Each call carries a {@code sessionId} via {@link MemoryId};
- * quarkus-langchain4j keeps a separate conversation window per id (default:
- * MessageWindowChatMemory, last 10 messages, in-memory). Two calls with the same
- * sessionId share history; a different sessionId starts fresh.
+ * Chat-memory demo (no RAG). Each call carries a {@code sessionId} via {@link MemoryId}.
+ *
+ * quarkus-langchain4j enables an in-memory sliding-window chat memory automatically — you
+ * do NOT need a ChatMemoryProvider bean. The catch is CDI scope: a {@code @RegisterAiService}
+ * is {@code @RequestScoped} by default, and when that bean is destroyed at the end of each
+ * HTTP request the framework wipes the bean's memory ids from the store — so history never
+ * survives to the next call (the request logs showed exactly this: every prompt had only the
+ * system + current message). Marking the service {@code @ApplicationScoped} keeps the memory
+ * alive across requests, keyed by {@code sessionId}: same id shares history, a new id starts
+ * fresh. The no-op {@link NoRagAugmentorSupplier} keeps easy-rag from quietly turning this
+ * into a RAG call.
  */
+@ApplicationScoped
 @RegisterAiService(retrievalAugmentor = NoRagAugmentorSupplier.class)
 public interface ConversationalAssistant {
 

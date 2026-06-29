@@ -18,7 +18,7 @@ public interface GameExpert {
     @SystemMessage("You are a video game expert. Judge quality by Metacritic critic scores (0–100).")
     @UserMessage("""
         List the {count} best {genre} video games of all time, ranked by Metacritic score.
-        For each game give its name, its publisher, its Metacritic score, and its release year.
+        For each game give its name, its publisher, its Metacritic score, and its release year and repeat the genre.
         """)
     GameChart bestGames(int count, String genre);
 }

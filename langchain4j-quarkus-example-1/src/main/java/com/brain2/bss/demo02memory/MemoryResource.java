@@ -1,5 +1,6 @@
 package com.brain2.bss.demo02memory;
 
+import dev.langchain4j.service.MemoryId;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -22,6 +23,6 @@ public class MemoryResource {
     @POST
     @Path("/memory")
     public String chat(MemoryRequest request) {
-        return assistant.chat("1", request.message());
+        return assistant.chat(request.sessionId(), request.message());
     }
 }
