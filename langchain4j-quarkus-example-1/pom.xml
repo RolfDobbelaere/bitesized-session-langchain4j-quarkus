@@ -76,6 +76,12 @@
             <artifactId>quarkus-rest-jackson</artifactId>
         </dependency>
 
+        <!-- SMTP sending for the @Tool demo (demo04tools): forwards suspicious mail to security@ -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-mailer</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
